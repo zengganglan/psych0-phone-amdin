@@ -19,6 +19,7 @@
       </ul>
     </div>-->
     <div class="data" id="calendar" style="padding-top:30px">
+
       <!-- <full-calendar :events="monthData" class="test-fc"
                       :config="config"
                       ref="calendar"
@@ -33,7 +34,10 @@
         v-on:isToday="clickToday"
         :markDate="arr"
       ></Calendar>
+           
+
       <div class="box">
+             <!-- <div class="add" @click="addnumber">新增预约</div> -->
         <div class="calendarbox">
           <h3 style="backgroundColor:#008000">无预约时段</h3>
           <div class="times">
@@ -82,8 +86,7 @@
         ></el-pagination>
       </div>-->
     </div>
-    <!-- <div class="add" @click="addnumber">新增预约</div> -->
-    <el-dialog title="咨询时间添加" :visible.sync="dialogFormVisible">
+    <el-dialog title="咨询时间添加" :visible.sync="dialogFormVisible" width='98%'>
       <el-form :model="form">
         <el-form-item label="星期" :label-width="formLabelWidth">
           <el-select v-model="form.name" placeholder="请选择" @change="changevalue" value-key>
@@ -96,10 +99,10 @@
           </el-select>
         </el-form-item>
         <el-form-item label="时间起" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off" style="width: 210px;" type="time"></el-input>
+          <el-input v-model="form.name" autocomplete="off" style="width: 170px;" type="time"></el-input>
         </el-form-item>
         <el-form-item label="时间止" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off" style="width: 210px;" type="time"></el-input>
+          <el-input v-model="form.name" autocomplete="off" style="width: 170px;" type="time"></el-input>
         </el-form-item>
         <el-form-item label="咨询师" :label-width="formLabelWidth">
           <el-select v-model="form.name" placeholder="请选择" @change="changevalue" value-key>
@@ -112,7 +115,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="备注" :label-width="formLabelWidth">
-          <el-input v-model="form.unit_name" autocomplete="off" style="width: 210px;"></el-input>
+          <el-input v-model="form.unit_name" autocomplete="off" style="width: 170px;"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -123,7 +126,7 @@
     <el-dialog title="咨询时间编辑" :visible.sync="dialogFormVisible1">
       <el-form :model="form1">
         <el-form-item label="沙盘组名称" :label-width="formLabelWidth">
-          <el-input v-model="form1.name" autocomplete="off" style="width: 210px;"></el-input>
+          <el-input v-model="form1.name" autocomplete="off" style="width: 150px;"></el-input>
         </el-form-item>
         <el-form-item label="单位名称" :label-width="formLabelWidth">
           <el-input v-model="form1.unit_name" autocomplete="off" style="width: 210px;"></el-input>
@@ -583,12 +586,12 @@ export default {
 .complete {
   width: 310px;
   height: 25px;
-  margin: 0 auto;
+  margin: 10px auto;
   text-align: center;
   line-height: 25px;
-  position: relative;
-  top: -20px;
-  color: gray;
+  // position: relative;
+  // top: -20px;
+  color: rgb(64, 140, 240);
   border: 1px solid #dfd7d7;
   border-radius: 10px;
   font-size: 18px;

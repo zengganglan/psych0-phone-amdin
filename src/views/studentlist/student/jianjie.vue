@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <!-- 头部 -->
-    <headson :headson="headson"></headson>
+    <!-- <headson :headson="headson"></headson> -->
     <div class="container">
       <div class="pa">
         <img src="../../../assets/images/School_Picture_22733.jpg" alt>
@@ -14,7 +14,7 @@
           <i>如有紧急状况请与025-66118399联系。</i>
         </div>
       </div>
-      <div class="p2">咨询师列表</div>
+      <!-- <div class="p2">咨询师列表</div>
       <div class="p0">
             <el-table
       :data="tableData"
@@ -34,7 +34,7 @@
         label="地址">
       </el-table-column>
     </el-table>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -84,13 +84,7 @@ export default {
   margin-top: 30px;
   background-color: #ffffff;
   width: 720px;
-  .p0,.p2,{
-    border-bottom: 2px solid #09c;
-    margin-top: 20px;
-    color: #09c;
-  }
-  .pa {
-  }
+ 
   .p1 {
     border-bottom: 2px solid #09c;
     padding: 10px;

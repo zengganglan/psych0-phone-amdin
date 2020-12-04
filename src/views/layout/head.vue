@@ -4,6 +4,7 @@
       <ul>
         <li>
           <span class="iconfont icon-menu" @click="sendmsg"></span>
+
         </li>
         <li>{{$store.state.navdata['title']}}</li>
         <li>
@@ -101,6 +102,8 @@
 
 <script>
 import $ from "jquery";
+import Cookies from "js-cookie";
+
 import { VueCropper } from "vue-cropper";
 export default {
   data() {
@@ -144,16 +147,40 @@ export default {
     this.role = role;
     
   },
+  //判断用户和管理员不同的登录首页
+  
   created(){
+      // 判断是还是普通管理员还是超级管理员1和3两个值
      this.$root.Bus.$on('setright', (content) => { 
        console.log(content)
        this.navtitle = content['title'];
        this.navicon=content['icon']
     });
         this.getmesage(1, 20);
+        
 
   },
   methods: {
+    goschool(){
+    var role = JSON.parse(Cookies.get("role"));
+    console.log(role)
+      if (role["type"] == 1) {
+        if (role["college_name"]) {
+          // 学校超管？注册时一定会选学校
+          this.$router.push({ path: "/admin/teacherindex/teacherschool" });
+        } else {
+          //  总超管
+          // this.$router.push({ path: "/school/localadminschool" });
+             this.$message('系统超管用户请从pc端登录')
+
+        }
+      } else if (role["type"] == 3) {
+        // 学校普通学生用户
+         this.$router.push({
+                  path: "/Evaluation/studentindex/studentschool"
+                });
+      }
+  },
        getmesage(currentpage, pagesize) {
       var that = this;
       this.axios
@@ -172,11 +199,12 @@ export default {
       // 不需要左侧菜单栏
       // this.shownav = !this.shownav;
       // this.$root.Bus.$emit("setMsg", this.shownav);
-      this.$router.push({path:'/admin/teacherindex/teacherschool'})
+      this.goschool()
     },
     goIndex() {
       console.log(1111111)
-      this.$router.push({ path: "/admin/teacherindex/teacherschool" });
+      this.goschool()
+
     },
     first() {
       this.$router.push({ path: "/login" });
@@ -322,7 +350,7 @@ export default {
 // 手机端 把a1 隐藏 显示phone-top
 .phone-top {
   display: block;
-  padding: 0 5px;
+  padding: 0 10px;
   height: 40px;
   background-color: #d8dcdd;
 

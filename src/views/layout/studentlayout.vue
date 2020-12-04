@@ -4,9 +4,9 @@
       <top/>
     </div>
     <div class="main-container">
-      <Navbar/>
+      <!-- <Navbar/> -->
       <div>
-        <headson/>
+           <headson />
         <transition name="fade" mode="out-in">
           <router-view></router-view>
         </transition>
@@ -21,6 +21,15 @@ import Navbar from "./studentnavbar";
 import headson from "../../components/headson";
 export default {
   name: "layout",
+  data() {
+    return {
+      headflag: false
+    }
+  },
+  methods: {
+     //接收子组件传递的值，val参数是传递过来的值  ，给inpMessage 赋值，子组件改变父组件的值
+    
+  },
   components: {
     top,
     Navbar,
@@ -46,7 +55,7 @@ export default {
   display: flex;
   min-height: 1260px;
 }
-.main-container > div:nth-child(2) {
+.main-container > div:nth-child(1) {
   flex: 1;
   background-color: #f8f8fa;
   /* 右边部分不影响其他盒子也不被别人影响· */

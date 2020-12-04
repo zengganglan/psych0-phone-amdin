@@ -105,36 +105,35 @@
       </div>
     </div>
     <!-- <div class="add" @click="addnumber">新增</div> -->
-    <el-dialog title="新增访谈" :visible.sync="dialogFormVisible" >
+     <el-dialog title="新增访谈" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-          <el-form-item label="星期" :label-width="formLabelWidth">
-          <el-select v-model="form.name" placeholder="请选择"  @change="changevalue" value-key>
-        <el-option
-          v-for="item in this.$store.state.sandgroups"
-          :key="item.id"
-          :label="item.name"
-          :value="item.name"
-         
-        ></el-option>
-      </el-select>
+        <el-form-item label="星期" :label-width="formLabelWidth">
+          <el-select v-model="form.name" placeholder="请选择" @change="changevalue" value-key>
+            <el-option
+              v-for="item in this.$store.state.sandgroups"
+              :key="item.id"
+              :label="item.name"
+              :value="item.name"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="时间起" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off" style="width: 210px;" type='time'></el-input>
+          <el-input v-model="form.name" autocomplete="off" style="width: 210px;" type="time"></el-input>
         </el-form-item>
         <el-form-item label="时间止" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off" style="width: 210px;"  type='time'></el-input>
+          <el-input v-model="form.name" autocomplete="off" style="width: 210px;" type="time"></el-input>
         </el-form-item>
         <el-form-item label="咨询师" :label-width="formLabelWidth">
-<el-select v-model="form.name" placeholder="请选择"  @change="changevalue" value-key>
-        <el-option
-          v-for="item in this.$store.state.sandgroups"
-          :key="item.id"
-          :label="item.name"
-          :value="item.name"
-         
-        ></el-option>
-      </el-select>        </el-form-item>
-         <el-form-item label="备注" :label-width="formLabelWidth">
+          <el-select v-model="form.name" placeholder="请选择" @change="changevalue" value-key>
+            <el-option
+              v-for="item in this.$store.state.sandgroups"
+              :key="item.id"
+              :label="item.name"
+              :value="item.name"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="备注" :label-width="formLabelWidth">
           <el-input v-model="form.unit_name" autocomplete="off" style="width: 210px;"></el-input>
         </el-form-item>
       </el-form>
@@ -179,7 +178,7 @@ export default {
         name: "",
         unit_name: ""
       },
-      formLabelWidth: "100px",
+      formLabelWidth: "70px",
       // 头部组件信息
       headson: ["访谈记录管理",'记录管理'],
       tableData: [
@@ -550,7 +549,7 @@ export default {
   }
 }
 .data {
-  min-height: 640px;
+  // min-height: 640px;
   border: 1px solid #e6e6e8;
   margin: 0 5px;
   margin-top: 30px;

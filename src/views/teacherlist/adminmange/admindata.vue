@@ -322,7 +322,7 @@ index1:"",
       var b = this.$refs.schoolcheck22.item.id - 0;
       var that = that; //  无数据集调换失败有可能你转移的这个班级并没有学生存在
       this.axios
-        .get(`api/v1/admin/user/changeUnitGroup?srcid=${a}&dstid=${b}`)
+        .get(`/api/v1/admin/user/changeUnitGroup?srcid=${a}&dstid=${b}`)
         .then(function(res) {
           if (res["data"]["code"] == 0) {
             alert("转移资料成功");

@@ -1,39 +1,44 @@
 <template>
   <div class="main">
     <div class="top">
-      <span class='iconfont icon-angle-left' @click="golin"></span><span>心理咨询管理系统</span>
+      <span class="iconfont icon-angle-left" @click="golin"></span>
+      <span>心理咨询管理系统</span>
     </div>
-    <template >
-       <div class="body">
-      <el-input placeholder="请输入用户名" v-model="username">
-        <template slot="prepend">用户名</template>
-      </el-input>
-      <el-input placeholder="请输入密码" type="password" v-model="password">
-        <template slot="prepend">密码</template>
-      </el-input>
-      <el-input placeholder="请输入验证码" v-model="yzm">
-        <template slot="prepend">验证</template>
-        <template slot="append">
-          <span class="yPicture">
-            <img :src="imgurl" alt ref="yzmimg" />
-          </span>
-          <span class="changeimg" @click="getyzm">换一张</span>
-        </template>
-      </el-input>
-      <div>
-      <input type="button" name="start" value="马上开始" @click="login" />
+    <template>
+      <div class="body">
+        <el-input placeholder="请输入用户名" v-model="username" style="margin-top:10px" clearable>
+          <template slot="prepend">账号</template>
+        </el-input>
+        <el-input
+          placeholder="请输入密码"
+          type="password"
+          v-model="password"
+          style="margin-top:10px"
+          clearable
+        >
+          <template slot="prepend">密码</template>
+        </el-input>
+        <el-input placeholder="请输入验证码" v-model="yzm" style="margin-top:10px" clearable>
+          <template slot="prepend">验证</template>
+          <template slot="append">
+            <span class="yPicture">
+              <img :src="imgurl" alt ref="yzmimg" />
+            </span>
+            <span class="changeimg" @click="getyzm">换一张</span>
+          </template>
+        </el-input>
+        <div>
+          <input type="button" name="start" value="马上开始" @click="login" />
+        </div>
+        <div>
+          <label class="f4">
+            <!-- <input type="checkbox" name="rember" ref="rember" />记住密码&nbsp;&nbsp;&nbsp; -->
+            <!-- <router-link tag="a" to="/register">注册</router-link>&nbsp; -->
+            <!-- <router-link tag="a" to="/getUserPassword">忘记密码</router-link> -->
+          </label>
+        </div>
       </div>
-      <div>
-        <label class="f4">
-          <input type="checkbox" name="rember" ref="rember" />记住密码&nbsp;&nbsp;&nbsp;
-          <router-link tag="a" to="/register">注册</router-link>&nbsp;
-          <!-- <router-link tag="a" to="/getUserPassword">忘记密码</router-link> -->
-        </label>
-      </div>
-    </div>
     </template>
-   
-     
   </div>
 </template>
 
@@ -71,9 +76,9 @@ export default {
     console.log(this.role);
   },
   methods: {
-      golin(){
-       this.$router.go(-1)
-      },
+    golin() {
+      this.$router.go(-1);
+    },
     getinfo() {
       var username = Cookies.get("username");
       var password = Cookies.get("password");
@@ -98,10 +103,12 @@ export default {
     },
     login() {
       var that = this;
+      var pass;
+      pass = md5(this.password);
       //点击触发事件匹配输入框正则，在给后台提交获得的信息返回结果看是否登陆成功 登陆成功就设置cookie放到vuex里面
-      if (!Cookies.get("password")) {
-        this.password = md5(this.password);
-      }
+      // if (!Cookies.get("password")) {
+      //   this.password = md5(this.password);
+      // }
       let data = {
         account: this.username,
         pwd: this.password,
@@ -115,7 +122,7 @@ export default {
         this.axios
           .post("/api/v1/admin/login", {
             account: this.username,
-            pwd: this.password,
+            pwd: pass,
             code: this.yzm,
             key: this.key
           })
@@ -144,24 +151,37 @@ export default {
               that.$store.commit("setToken", { token: token, role: role });
               that.$store.commit("getToken");
               //第一次登陆检查有没有选择记住密码，如果选择就把用户登陆信息和密码同时放到cookie里面或则放到本地存储
-              var checked = that.$refs.rember.checked;
-              if (checked) {
-                Cookies.set("username", that.username);
-                Cookies.set("password", that.password);
-              }
+              // var checked = that.$refs.rember.checked;
+              // if (checked) {
+              //   Cookies.set("username", that.username);
+              //   Cookies.set("password", that.password);
+              // }
               // 登录成功返回个人用户信息判断是学生还是管理员
+
               if (role["type"] == 1 || role["type"] == 2) {
                 //只有管理员返回成功出现弹窗。可以点击进入系统/跳转相关页面
-                that.$store.state.loginsucess = false;
-                 that.$router.push({
-                  path: "/login"
-                });
+                // that.$store.state.loginsucess = false;
+                //  that.$router.push({
+                //   path: "/login"
+                // });
+                // 直接跳转
+                if (role["college_name"]) {
+                  // 学校超管？注册时一定会选学校
+                  that.$router.push({
+                    path: "/admin/teacherindex/teacherschool"
+                  });
+                } else {
+                  //  总超管
+                  // this.$router.push({ path: "/school/localadminschool" });
+                  that.$message("系统超管用户操作请从pc端登录");
+                }
               } else if (role["type"] == 3) {
                 //如果是学生直接进入学生页面
-                // that.$router.push({
-                //   path: "/Evaluation/studentindex/studentschool"
-                // });
-                that.$message('学生用户请从pc端登录')
+                that.$router.push({
+                  path: "/Evaluation/studentindex/studentschool"
+                });
+                // that.$message('学生用户请从pc端登录')
+                that.getyzm();
               }
             } else {
               // 登录不成功刷新验证码
@@ -181,48 +201,53 @@ export default {
 
 <style lang="scss" scoped>
 .main {
-  height: 100%;
+  .body {
+    background: url("../../assets/images/bj@2x.png") no-repeat;
+    background-size: 100% 100%;
+    height: 400px;
+    padding-top: 200px;
+  }
 }
 .top {
-      background-color: #e9eff3;
+  background-color: #e9eff3;
 
   text-align: center;
   position: relative;
   height: 50px;
   line-height: 50px;
-  .icon-angle-left{
-      position: absolute;
-      left: 5px;
+  .icon-angle-left {
+    position: absolute;
+    left: 5px;
   }
 }
-.el-input-group__append{
-    // padding: 0
-    
-    .changeimg{
-        color: #9c9c9c;
-    }
-}
- input[name="start"] {
-     margin:0 10px;
-    margin-top: 20px;
-    -webkit-appearance: none;
-    width: 90%;
-    height: 40px;
-    font-size: 18px;
-    border-radius: 5px;
-    background: #7c8ce7;
-    border: 0;
-    color: #ffffff;
-    font-family: "microsoft yahei";
-    cursor: pointer;
+.el-input-group__append {
+  // padding: 0
+
+  .changeimg {
+    color: #9c9c9c;
   }
+}
+input[name="start"] {
+  margin: 0 10px;
+  margin-top: 20px;
+  -webkit-appearance: none;
+  width: 90%;
+  height: 40px;
+  font-size: 18px;
+  border-radius: 5px;
+  background: #7c8ce7;
+  border: 0;
+  color: #ffffff;
+  font-family: "microsoft yahei";
+  cursor: pointer;
+}
 .yPicture {
   display: inline-block;
   height: 33px;
   vertical-align: middle;
   margin-right: 5px;
   width: 80px;
-  
+
   img {
     width: 100%;
     height: 100%;
@@ -233,7 +258,7 @@ export default {
   display: inline-block;
   width: 100%;
   text-align: center;
-      font-size: 12px;
+  font-size: 12px;
 
   a {
     color: #9c9c9c;

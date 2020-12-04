@@ -3,25 +3,22 @@
     "sort": 1,
     "id": 1,
     "pid": 0,
-    "uri": "Evaluation",
-    "name": "Evaluation",
+    "menu_route": "Evaluation",
     "icon": "icon-baobei",
     "menu_name": "测评中心",
     "items": [{
         "id": 4,
         "pid": 1,
-        "uri": "Evaluation/survey",
-        "name": "Evaluation/survey",
+        "menu_route": "Evaluation/survey",
         "icon": null,
-        "menu_name": "心理普查",
+        "menu_name": "心理普测",
         "items": []
 
       },
       {
         "id": 7,
         "pid": 1,
-        "uri": "Evaluation/zice",
-        "name": "Evaluation/zice",
+        "menu_route": "Evaluation/zice",
         "icon": null,
         "menu_name": "心理自测",
         "items": []
@@ -30,8 +27,7 @@
       {
         "id": 7,
         "pid": 1,
-        "uri": "Evaluation/jilu",
-        "name": "Evaluation/jilu",
+        "menu_route": "Evaluation/jilu",
         "icon": null,
         "menu_name": "测评记录",
         "items": []
@@ -45,15 +41,13 @@
     "sort": 2,
     "id": 2,
     "pid": 0,
-    "uri": "student",
-    "name": "student",
+    "menu_route": "student",
     "icon": "icon-zixun",
     "menu_name": "咨询中心",
     "items": [{
         "id": 3,
         "pid": 2,
-        "uri": "student/jianjie",
-        "name": "student/jianjie",
+        "menu_route": "student/jianjie",
         "icon": null,
         "menu_name": "中心简介",
         "items": []
@@ -62,28 +56,17 @@
       {
         "id": 7,
         "pid": 2,
-        "uri": "student/history",
-        "name": "student/history",
+        "menu_route": "student/history",
         "icon": null,
-        "menu_name": "咨询记录",
+        "menu_name": "预约咨询",
         "items": []
 
       },
+     
       {
         "id": 7,
         "pid": 2,
-        "uri": "student/yaoqing",
-        "name": "student/yaoqing",
-        "icon": null,
-        "menu_name": "访谈邀请",
-        "items": []
-
-      },
-      {
-        "id": 7,
-        "pid": 2,
-        "uri": "student/message",
-        "name": "student/message",
+        "menu_route": "student/message",
         "icon": null,
         "menu_name": "问题留言",
         "items": []
@@ -91,56 +74,29 @@
       }
     ]
   },
-  "3": {
-    "sort": 3,
-    "id": 2,
-    "pid": 0,
-    "uri": "group",
-    "icon": "icon-youxi",
-    "menu_name": "团体辅导",
-    "items": [{
-        "id": 3,
-        "pid": 2,
-        "uri": "group/courselist",
-        "icon": null,
-        "menu_name": "课程列表",
-        "items": []
-      },
 
-      {
-        "id": 7,
-        "pid": 1,
-        "uri": "group/course",
-        "icon": null,
-        "menu_name": "心理课程",
-        "items": []
-
-      }
-
-    ]
-  },
   "4": {
     "sort": 4,
     "id": 2,
     "pid": 0,
-    "uri": "Growup",
+    "menu_route": "Growup",
     "icon": "icon-edit",
     "menu_name": "成长档案",
     "items": [{
         "id": 3,
         "pid": 2,
-        "uri": "Growup/record",
+        "menu_route": "Growup/record",
         "icon": null,
-        "menu_name": "自我成长报告",
+        "menu_name": "个人档案",
         "items": []
       },
 
       {
         "id": 7,
         "pid": 1,
-        "uri": "Growup/comment",
+        "menu_route": "Growup/comment",
         "icon": null,
-        "menu_name": "评价中心",
+        "menu_name": "个人中心",
         "items": []
 
       }

@@ -254,7 +254,7 @@ export default {
       var that = this;
       console.log(this.form);
       this.axios
-        .post("api/v1/admin/vr/group/add", {
+        .post("/api/v1/admin/vr/group/add", {
           job_num: that.form.id
         })
         .then(function(res) {

@@ -334,7 +334,7 @@ export default {
           topping = 0;
         }
         this.axios
-          .post("api/v1/admin/article/edit", {
+          .post("/api/v1/admin/article/edit", {
             id: that.id,
             column_id: this.form.value,
             theme: this.form.title,

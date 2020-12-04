@@ -1,6 +1,7 @@
 <template>
   <div class="main">
     <!-- 头部 -->
+    <headson :headson="headson"></headson>
     <!-- 搜索栏 -->
     <div class="search">
       <ul>
@@ -450,7 +451,7 @@ export default {
 .data {
   min-height: 640px;
   border: 1px solid #e6e6e8;
-  margin:0 10px;
+  margin: 0 50px;
   margin-top: 30px;
   background-color: #ffffff;
 }

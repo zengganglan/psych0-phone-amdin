@@ -92,7 +92,7 @@ export default {
         });
     },
     goindex() {
-      // 判断是还是普通管理员还是超级管理员
+      // 判断是还是普通管理员还是超级管理员1和3两个值
       var role = JSON.parse(Cookies.get("role"));
       if (role["type"] == 1) {
         if (role["college_name"]) {
@@ -104,14 +104,17 @@ export default {
              this.$message('系统超管用户请从pc端登录')
 
         }
-      } else if (role["type"] == 2) {
+      } else if (role["type"] == 3) {
         // 学校普通管理员
-        this.$router.push({ path: "/admin/teacherindex/teacherschool" });
+        this.$message('学生用户请从pc端登录')
       }
     },
     // 只是前段登出 后台没接收到销毁的token
     logincout() {
+            Cookies.set("userToken", "");
+
       this.$store.commit("setToken", "");
+      this.$store.state.columns=''
       this.$store.state.loginsucess = true;
       //this.getyzm();
     },

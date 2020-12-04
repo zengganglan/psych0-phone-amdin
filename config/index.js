@@ -11,19 +11,19 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://115.159.209.142:7006',
+        target: 'http://116.62.71.97',
         changeOrigin: true,
         pathRewrite: { '^/api': '/api' }
       },
       '/uploads': {
-        target: 'http://115.159.209.142:7006',
+        target: 'http://116.62.71.97',
         changeOrigin: true,
         pathRewrite: { '^/uploads': '/uploads' }
       }
     },
 
     // Various Dev Server settings
-    host: '192.168.88.160', // can be overwritten by process.env.HOST
+    host: '192.168.88.159', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
@@ -52,7 +52,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: './',
+    assetsPublicPath: '/mobile/',
 
     /**
      * Source Maps

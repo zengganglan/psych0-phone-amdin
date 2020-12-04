@@ -133,7 +133,7 @@ export default {
       //  alert(`获取了${a}`);
       var that = this;
       this.axios
-        .get(`api/v1/admin/message/listByUID?uid=${this.useid}`)
+        .get(`/api/v1/admin/message/listByUID?uid=${this.useid}`)
         .then(res1 => {
           var data1 = res1["data"]["data"];
           data1.map((item1, index1) => {
@@ -144,7 +144,7 @@ export default {
           });
           console.log(data1);
           this.axios
-            .get(`api/v1/admin/counsel/getClientListByUID?uid=${this.useid}`)
+            .get(`/api/v1/admin/counsel/getClientListByUID?uid=${this.useid}`)
             .then(res2 => {
               console.log(res2);
               var data2 = res2["data"]["data"];
@@ -155,7 +155,7 @@ export default {
               });
               console.log(data2);
               this.axios
-                .get(`api/v1/admin/coach/listByUID?uid=${this.useid}`)
+                .get(`/api/v1/admin/coach/listByUID?uid=${this.useid}`)
                 .then(res3 => {
                   console.log(res3);
                   var data3 = res3["data"]["data"];
@@ -260,14 +260,14 @@ export default {
 
     zixun() {
       this.axios
-        .get(`api/v1/admin/counsel/getClientListByUID?uid=${this.useid}`)
+        .get(`/api/v1/admin/counsel/getClientListByUID?uid=${this.useid}`)
         .then(res => {
           console.log(res);
         });
     },
     fangtan() {
       this.axios
-        .get(`api/v1/admin/coach/listByUID?uid==${this.useid}`)
+        .get(`/api/v1/admin/coach/listByUID?uid==${this.useid}`)
         .then(res => {
           console.log(res);
         });

@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <!-- 头部 -->
-    <headson :headson="headson"></headson>
+    <!-- <headson :headson="headson"></headson> -->
     <!-- 搜索栏 -->
     <!-- <div class="search">
       <span>关键字</span>
@@ -14,7 +14,7 @@
           <i class="iconfont icon-trash"></i>
         </span>
     </div>-->
-    <div class="data">
+    <!-- <div class="data">
       <el-table
         ref="singleTable"
         :data="tableData"
@@ -24,7 +24,6 @@
         :default-sort="{prop: 'date', order: 'descending'}"
         @selection-change="handleSelectionChange"
       >
-        <!-- <el-table-column property="sort" width="120mmmm" label="序号"></el-table-column> -->
         <el-table-column property="a" label="序号"></el-table-column>
         <el-table-column property="b" label="主题"></el-table-column>
         <el-table-column property="c" label="提问时间"></el-table-column>
@@ -40,9 +39,9 @@
 
        
       </el-table>
-    </div>
+    </div> -->
     <div>
-      <div class="pages">
+      <!-- <div class="pages">
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="pageCurrentChange"
@@ -52,16 +51,16 @@
           layout="total, sizes, prev, pager, next, jumper"
           :total="page.countpage"
         ></el-pagination>
-      </div>
+      </div> -->
     </div>
     <div class="add" @click="addnumber">我要留言</div>
-    <el-dialog title="沙盘添加" :visible.sync="dialogFormVisible">
+    <el-dialog title="留言添加" :visible.sync="dialogFormVisible" width='100%'>
       <el-form :model="form">
-        <el-form-item label="沙盘组名称" :label-width="formLabelWidth">
+        <el-form-item label="留言主题" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off" style="width: 210px;"></el-input>
         </el-form-item>
-        <el-form-item label="单位名称" :label-width="formLabelWidth">
-          <el-input v-model="form.unit_name" autocomplete="off" style="width: 210px;"></el-input>
+        <el-form-item label="留言内容" :label-width="formLabelWidth">
+          <el-input v-model="form.unit_name" autocomplete="off" style="width: 100%" type='textarea'></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -69,7 +68,7 @@
         <el-button type="primary" @click="makesure()">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="沙盘编辑" :visible.sync="dialogFormVisible1">
+    <el-dialog title="留言编辑" :visible.sync="dialogFormVisible1">
       <el-form :model="form1">
         <el-form-item label="沙盘组名称" :label-width="formLabelWidth">
           <el-input v-model="form1.name" autocomplete="off" style="width: 210px;"></el-input>
@@ -104,9 +103,9 @@ export default {
         name: "",
         unit_name: ""
       },
-      formLabelWidth: "120px",
+      formLabelWidth: "70px",
       // 头部组件信息
-      headson: ["确认访谈邀请", "确认访谈记录"],
+      headson: ["问题留言", "当前学生留言记录"],
       tableData: [],
       tableData3: [
         {
@@ -264,9 +263,9 @@ export default {
       var that = this;
       console.log(this.form);
       this.axios
-        .post("/api/v1/admin/sand/group/add", {
-          name: that.form.name,
-          unit_name: that.form.unit_name
+        .post("/api/v1/user/message/add/msg", {
+          content: that.form.unit_name,
+          theme: that.form.name
         })
         .then(function(res) {
           console.log(res);
@@ -350,7 +349,7 @@ export default {
   }
 }
 .data {
-  min-height: 640px;
+      min-height: 200px;
   border: 1px solid #e6e6e8;
   margin: 0 50px;
   margin-top: 30px;
@@ -359,12 +358,12 @@ export default {
 .add,
 .complete {
   width: 310px;
-  height: 25px;
+  height: 100px;
   margin: 0 auto;
   text-align: center;
-  line-height: 25px;
+  line-height: 100px;
   position: relative;
-  top: -20px;
+  top: 100px;
   color: gray;
   border: 1px solid #dfd7d7;
   border-radius: 10px;

@@ -73,6 +73,7 @@ import alltest from "../views/teacherlist/Gauge/test1/alltest"
 import selftestSheet from "../views/teacherlist/Gauge/test1/selftestSheet"
 import warning from "../views/teacherlist/Gauge/test2/warning"
 import result from "../views/teacherlist/Gauge/test2/result"
+import resultdetail from "../views/teacherlist/Gauge/test2/resultdetail"
 import testgroup from "../views/teacherlist/Gauge/testgroup"
 import handdata from "../views/teacherlist/Gauge/testdata/handdata"
 import importdata from "../views/teacherlist/Gauge/testdata/import"
@@ -87,6 +88,9 @@ import comnonartical from '../views/studentlist/comnonartical'
 import survey from '../views/studentlist/Evaluation/survey'
 import zice from '../views/studentlist/Evaluation/zice'
 import jilu from '../views/studentlist/Evaluation/jilu'
+import test from '../views/studentlist/Evaluation/test'
+import Caleresult from '../views/studentlist/caleresult'
+
 
 import course from '../views/studentlist/group/course'
 import courselist from '../views/studentlist/group/courselist'
@@ -114,6 +118,8 @@ Vue.use(Router)
 var path = "单位组别设置";
 
 export default new Router({
+  // mode: 'history',
+  // base: '/mobile/',
   routes: [
     // 消息中心
     {
@@ -126,7 +132,7 @@ export default new Router({
     {
       path: "/login",
       name: '登陆',
-      component: login,
+      component: loginindex,
 
     },
     {
@@ -331,6 +337,11 @@ export default new Router({
         path: "result",
         name: "查看量表",
         component: result
+      },
+      {
+        path: "resultdetail",
+        name: "详情量表",
+        component: resultdetail
       },
       {
         path: "testgroup",
@@ -692,10 +703,12 @@ export default new Router({
           name: "学生",
           component: studentschool
         },
+        
 
       ]
 
     },
+  
     {
       path: '/studentindex/gpartical',
       name: '文章详情',
@@ -725,8 +738,18 @@ export default new Router({
           path: "jilu",
           name: "心理记录",
           component: jilu
-        }
+        },
+          {
+      path: 'caleresult',
+      name: '量表结果',
+      component: Caleresult,
+    },
       ]
+    },
+    {
+      path: "/test",
+      name: "测试题",
+      component: test
     },
     // 学生咨询中心
     {
@@ -829,52 +852,52 @@ export const asyrouter = [{
 }]
 
 // 返回某个权限某个页面 {path:"xxxx",permission:[]}//报错Uncaught SyntaxError: Invalid destructuring assignment target
-export const routerMatch = function (permission, asyncRouter) {
-  return new Promise(((resolve) => {
-    //  创建路由
-    const routers = []
+// export const routerMatch = function (permission, asyncRouter) {
+//   return new Promise(((resolve) => {
+//     //  创建路由
+//     const routers = []
 
-    function creatRouter(permission) {
-      permission.forEach(item => {
-        // debugger;
+//     function creatRouter(permission) {
+//       permission.forEach(item => {
+//         // debugger;
 
-        if (item.children && item.children.length) {
-          creatRouter(item.children)
-        }
-        // 把返回的权限循环 有权限就会有存在的路由
-        let path = item.path
-        for (let i = 0; i < asyncRouter.length; i++) {
-          console.log(asyncRouter[i]['path'])
-          if (asyncRouter[i]['children']) {
-            for (let j = 0; j < asyncRouter[i]['children'].length; j++) {
-              let routepath = asyncRouter[i]['path'] + '/' + asyncRouter[i]['children'][j]['path']
-              console.log(asyncRouter[i]['children'][j]['path'])
-              if (routepath == path) {
-                // 每次找到就定义一个新数组
-                let arrson = []
-                let async={}
-                async['path']=asyncRouter[i]['path']
-                async['name']=asyncRouter[i]['name']
-                async['component']=asyncRouter[i]['component']
-                asyncRouter[i]['children'][j].permission= item.permission            
-                arrson.push(asyncRouter[i]['children'][j])
-                async['children']=arrson
-                console.log(async)
-                // // 把所有需要权限页面罗列出来和后台返回的权限做匹配 如果匹配上了就动态增加路由
-                routers.push(async)
+//         if (item.children && item.children.length) {
+//           creatRouter(item.children)
+//         }
+//         // 把返回的权限循环 有权限就会有存在的路由
+//         let path = item.path
+//         for (let i = 0; i < asyncRouter.length; i++) {
+//           console.log(asyncRouter[i]['path'])
+//           if (asyncRouter[i]['children']) {
+//             for (let j = 0; j < asyncRouter[i]['children'].length; j++) {
+//               let routepath = asyncRouter[i]['path'] + '/' + asyncRouter[i]['children'][j]['path']
+//               console.log(asyncRouter[i]['children'][j]['path'])
+//               if (routepath == path) {
+//                 // 每次找到就定义一个新数组
+//                 let arrson = []
+//                 let async={}
+//                 async['path']=asyncRouter[i]['path']
+//                 async['name']=asyncRouter[i]['name']
+//                 async['component']=asyncRouter[i]['component']
+//                 asyncRouter[i]['children'][j].permission= item.permission            
+//                 arrson.push(asyncRouter[i]['children'][j])
+//                 async['children']=arrson
+//                 console.log(async)
+//                 // // 把所有需要权限页面罗列出来和后台返回的权限做匹配 如果匹配上了就动态增加路由
+//                 routers.push(async)
 
-              }
-            }
-          }
+//               }
+//             }
+//           }
 
-        }
+//         }
        
-      });
-      console.log(routers)
+//       });
+//       console.log(routers)
 
-    }
-    // 调用函数
-    creatRouter(permission)
-    resolve([routers])
-  }))
-}
+//     }
+//     // 调用函数
+//     creatRouter(permission)
+//     resolve([routers])
+//   }))
+// }

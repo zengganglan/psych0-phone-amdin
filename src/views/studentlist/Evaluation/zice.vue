@@ -1,11 +1,12 @@
 <template>
   <div class="main">
     <!-- 头部 -->
+    <!-- <headson :headson="headson"></headson> -->
     <!-- 搜索栏 -->
     <div class="search">
-      <span>关键字</span>
+      <!-- <span>关键字</span>
       <input type="text">
-      <i data-v-30c34ff0 class="iconfont icon-sousuo"></i>
+      <i data-v-30c34ff0 class="iconfont icon-sousuo"></i> -->
     </div>
      <!-- <div class="work">
                 <span class="del" @click="handleDelete">
@@ -14,7 +15,7 @@
         </span>
       </div> -->
     <div class="data">
-
+      
       <el-table
         ref="singleTable"
         :data="tableData"
@@ -25,30 +26,28 @@
            @selection-change="handleSelectionChange"
       >
         <!-- <el-table-column property="sort" width="120mmmm" label="序号"></el-table-column> -->
-          <el-table-column
+          <!-- <el-table-column
       type="selection"
       width="55">
-    </el-table-column>
-        <el-table-column  property="a"  label="序号"></el-table-column>
-        <el-table-column property="b" label="简介" ></el-table-column>
-        <el-table-column label="量表名称" >
-        <template slot-scope="scope">
-           <span style="color:#0e90d2;cursor: pointer">{{scope.row.c}}</span>
-      </template>
-        </el-table-column>
-        <el-table-column property="d" label="使用年龄" ></el-table-column>
+    </el-table-column> -->
+        <el-table-column prop="view_name" label="友好名称"></el-table-column>
+        <el-table-column prop="short_name" label="英文简称"></el-table-column>
+                <el-table-column prop="type_name" label="量表类别"></el-table-column>
 
-         <!-- <el-table-column label="操作">
+        <el-table-column prop="topic_count" label="题数"></el-table-column>
+        <el-table-column label="适用年龄">
+          <template slot-scope="scope">
+            <span>{{scope.row.min_age+" — "+scope.row.max_age}}</span>
+          </template>
+        </el-table-column>
+         <el-table-column label="操作">
       <template slot-scope="scope">
         <el-button
           size="mini"
-          @click.stop="handleEdit(scope.$index, scope.row)">编辑</el-button>
-        <el-button
-          size="mini"
-          type="danger"
-          @click.stop="handleDelete(scope.$index, scope.row)">删除</el-button>
+          @click.stop="handleEdit(scope.$index, scope.row)">测试</el-button>
+      
       </template>
-    </el-table-column> -->
+    </el-table-column>
       </el-table>
     </div>
     <div>
@@ -63,40 +62,14 @@
             :total="page.countpage"
           ></el-pagination>
      </div>    </div>
-           <!-- <div class="add" @click="addnumber">新增</div> -->
-           <el-dialog title="沙盘添加" :visible.sync="dialogFormVisible">
-  <el-form :model="form">
-    <el-form-item label="沙盘组名称" :label-width="formLabelWidth" >
-      <el-input v-model="form.name" autocomplete="off" style="width: 210px;"></el-input>
-    </el-form-item>
-    <el-form-item label="单位名称" :label-width="formLabelWidth" >
-      <el-input v-model="form.unit_name" autocomplete="off" style="width: 210px;"></el-input>
-    </el-form-item>
-  </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="makesure()">确 定</el-button>
-  </div>
-</el-dialog>
-  <el-dialog title="沙盘编辑" :visible.sync="dialogFormVisible1">
-  <el-form :model="form1">
-    <el-form-item label="沙盘组名称" :label-width="formLabelWidth" >
-      <el-input v-model="form1.name" autocomplete="off" style="width: 210px;"></el-input>
-    </el-form-item>
-    <el-form-item label="单位名称" :label-width="formLabelWidth" >
-      <el-input v-model="form1.unit_name" autocomplete="off" style="width: 210px;"></el-input>
-    </el-form-item>
-  </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisible1 = false">取 消</el-button>
-    <el-button type="primary" @click='editsure'>确 定</el-button>
-  </div>
-</el-dialog>
+        
+ 
 
   </div>
 </template>
 
 <script>
+// import '../../../assets/excel/新时代智慧党建渠道价格表11.19(3).xlsx'
 import headson from "../../../components/headson";
 import pagination from "../../../components/pagination";
 
@@ -118,24 +91,7 @@ export default {
       // 头部组件信息
       headson: ["我的自测","根据自己兴趣测试一下量表"],
       tableData: [],
-      tableData3:[
-        {
-          a: '1',
-          b: '测测你的智力水平',
-          c: 'ucla孤独量表',
-          d:"12-23...."
-        }, {
-          a: '2',
-          b: '测测你的智力水平1',
-          c: 'ucla孤独量表',
-          d:"14-18...."
-        },{
-          a: '3',
-          b: '测测你的智力水平1',
-          c: 'ucla孤独量表',
-          d:"14-17...."
-        },
-      ],
+      tableData3:[  ],
       multipleSelection: [],
       // 页码
       page: {
@@ -155,18 +111,18 @@ export default {
     getlist(currentpage,pagesize) {
       // 获得列表数据
       //传递查询条件返回相应页码的数据条数 查询条件当前页码，和每页显示条数
-      var that= this
-      that.tableData=that.tableData3
-       if (that.tableData.length==0) {
+      var that= this     
+      this.axios.post('/api/v1/scale/getScaleList',{page:currentpage,size:pagesize}).then(function(res){
+          if (res['data'].code==0) {
+            var data = res['data']['data']['list']             
+              that.page.countpage=res['data']['data']['count']
+              that.tableData=data
+          }
+           if (that.tableData.length==0) {
          this.$message('没有待测量表') 
        }
-      // this.axios.post('/api/v1/admin/sand/group/list',{page:currentpage,size:pagesize}).then(function(res){
-      //     if (res['data'].code==0) {
-      //         that.page.countpage=res['data']['data']['total']
-      //         that.tableData=res['data']['data']['list']
-      //     }
-      //     console.log(res)
-      // })
+          console.log(res)
+      })
      
     },
     setCurrent(row) {
@@ -196,71 +152,11 @@ export default {
 
       },
        handleEdit(index, row) {
-       this.dialogFormVisible1 = true
-        this.form1.id= row.id
-        this.form1.name=row.name
-        this.form1.unit_name=row.unit_name
+      
+        this.$router.push({path:'/test',query:{scaleid:row.id,name:row.view_name}})
         
       },
-      editsure(){
-          this.axios.post('/api/v1/admin/sand/group/edit',{
-            id:this.form1.id,
-            name:this.form1.name,
-           unit_name:this.form1.unit_name
-
-        }).then(function(res){
-            console.log(res)
-            if (res['data']['code']==0) {
-                that.$message('编辑成功')
-                    that.getlist(that.page.currentpage,that.page.pagesize);
-
-            }else{
-                 that.$message(res['data']['msg'])
-            }
-        })
-      },
-      handleDelete(index, row) {
-          var id = []
-          if (row) {
-              id.push(row.id)
-          }else{
-              if (this.multipleSelection.length!==0) {
-                 this.multipleSelection.map((item)=>{
-                  id.push((item['id']))
-              }) 
-              }else{
-                  this.$message('请确定选中了选项')
-              }
-              
-          }
-           var that=this
-            this.$confirm("此操作将永久删除该信息, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          //  点击确定开始删除
-          this.axios.post('/api/v1/admin/sand/group/delete',{id:id}).then(function(res){
-              console.log(res)
-              if (res['data']['code']==0) {
-                  that.$message('删除成功')
-                    that.getlist(that.page.currentpage,that.page.pagesize);
-
-              }else{
-                  that.$message(res['data']['msg'])
-              }
-          })
-
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
-         
-      },
+     
        handleSelectionChange(val) {
         this.multipleSelection = val;
         console.log(val)
@@ -268,28 +164,7 @@ export default {
       addnumber(){
        this.dialogFormVisible = true
       },
-      makesure(){
-        this.dialogFormVisible = false
-        var that=this
-        console.log(this.form)
-        this.axios.post('/api/v1/admin/sand/group/add',{
-            name:that.form.name,
-            unit_name:that.form.unit_name
-        }).then(function(res){
-            console.log(res)
-            if (res['data']['code']==0) {
-                that.$message('增加成功')
-                    that.getlist(that.page.currentpage,that.page.pagesize);
-
-            }else{
-                that.$message(res['data']['msg'])
-            }
-        })
-
-      },
-      handleDelAll(){
-
-      }
+   
   },
   
   components: {
@@ -365,7 +240,7 @@ export default {
 .data {
   min-height: 640px;
   border: 1px solid #e6e6e8;
-  margin: 0 50px;
+  margin: 0 0px;
   margin-top: 30px;
   background-color: #ffffff;
 }

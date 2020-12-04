@@ -57,8 +57,8 @@
         ></el-pagination>
       </div>
     </div>
-    <!-- <div class="add" @click="addnumber">新增</div> -->
-    <el-dialog title="新增预约安排" :visible.sync="dialogFormVisible" width="500px">
+    <div class="add" @click="addnumber">新增</div>
+    <el-dialog title="新增预约安排" :visible.sync="dialogFormVisible" width="98%">
       <el-form :model="form">
         <ul>
           <li class="q q1" v-if="step==1">
@@ -98,12 +98,12 @@
               <el-input
                 v-model="form.start_time"
                 autocomplete="off"
-                style="width: 100px;"
+                style="width: 120px;"
                 type="time"
               ></el-input>
               <el-card
                 class="box-card"
-                style="width: 210px; display:inline-block;position:absolute;top:-30px;right:10px;height:190px;overflow-Y: scroll"
+                style="width: 150px; display:inline-block;position:absolute;top:-30px;right:10px;height:190px;overflow-Y: scroll"
               >
                 <!-- <div slot="header" class="clearfix" style="padding:0px">
     <span >卡片名称</span>
@@ -123,7 +123,7 @@
               <el-input
                 v-model="form.end_time"
                 autocomplete="off"
-                style="width: 100px;"
+                style="width: 120px;"
                 type="time"
               ></el-input>
             </el-form-item>
@@ -212,7 +212,7 @@ export default {
         name: "",
         unit_name: ""
       },
-      formLabelWidth: "100px",
+      formLabelWidth: "70px",
       // 头部组件信息
       headson: ["咨询时间管理", "设置咨询时间"],
       tableData: [],
@@ -454,7 +454,6 @@ export default {
               return;
             } else {
               // console.log(1213455455555555)
-              var that = this;
               that.dialogFormVisible = false;
               var d1 = new Date(that.date);
               var d2 = new Date(that.date);
@@ -680,7 +679,7 @@ export default {
   }
 }
 .data {
-  min-height: 640px;
+  // min-height: 640px;
   border: 1px solid #e6e6e8;
   margin: 0 10px;
   margin-top: 30px;

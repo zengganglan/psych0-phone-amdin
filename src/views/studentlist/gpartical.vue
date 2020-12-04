@@ -6,7 +6,7 @@
     <template v-if="flag">
       <div class="container atticalcon">
         <el-table :data="tableData" style="width: 100%">
-          <el-table-column label width="200">
+          <el-table-column label width="700">
             <template slot-scope="scope">
               <span
                 style="margin-left: 10px"
@@ -28,7 +28,7 @@
     <template v-else>
       <div class="bac">
         <div class="container1">
-          <!-- <div class="left">
+          <div class="left">
             <el-row class="tac">
               <el-col :span="12">
                 <h5>{{column}}</h5>
@@ -37,6 +37,7 @@
                   class="el-menu-vertical-demo"
                   @select="handleOpen"
                   @close="handleClose"
+                  
                 >
                   <el-menu-item v-for="(item,index) in  tableData" :key="index" :index="''+item.id">
                     <span slot="title">{{item.theme}}</span>
@@ -44,47 +45,44 @@
                 </el-menu>
               </el-col>
             </el-row>
-          </div> -->
+          </div>
           <div class="right" :v-html="content" style="text-algin:center">
             <div class="title">
               <h1 class="am-article-title am-text-center">{{theme}}</h1>
               <p>
                 作者：
-                <span>{{name}}</span>&nbsp;&nbsp;  <br> 时间：
-                <span>{{time}}</span>&nbsp;&nbsp;  <br>浏览次数：
+                <span>{{name}}</span>&nbsp;&nbsp; 时间：
+                <span>{{time}}</span>&nbsp;&nbsp; 浏览次数：
                 <span>{{visit}}</span>
               </p>
             </div>
-            <p v-html="content" class="pcon">
-            </p>
-              <div class="pinglun">
-            <span class="logins el-icon-star-on" @click="loginpath">登录</span>
-            <textarea name id cols="30" rows="3" v-model="pinglun">
+            <p v-html="content" class="pcon"></p>
+            <div class="pinglun">
+              <span class="logins el-icon-star-on" @click="loginpath">登录</span>
+              <textarea name id cols="30" rows="10" v-model="pinglun">
           233
         </textarea>
 
-            <div class="sub">
-              <input type="button" value="畅言一下" @click="cangyan">
-            </div>
-
-            <div class="liuyans">
-              <div class="tab" v-for="(item,index) in getcomment" :key="index">
-                <div class="lef"><span class="iconfont icon-rentou"></span></div>
-                <div class="rig">
-                  <div class="titl">
-                    姓名：
-                    <span>{{item.name}}</span> 评论时间：
-                    <span>{{item.create_time}}</span>
-                  </div>
-                  <div class="content">{{item.content}}</div>
-                </div>
+              <div class="sub">
+                <input type="button" value="畅言一下" @click="cangyan" />
               </div>
-              <div class="loadmore" @click="loadmore" v-if="commentsflag">加载更多</div>
+
+              <div class="liuyans">
+                <div class="tab" v-for="(item,index) in getcomment" :key="index">
+                  <div class="lef"></div>
+                  <div class="rig">
+                    <div class="titl">
+                      姓名：
+                      <span>{{item.name}}</span> 评论时间：
+                      <span>{{item.create_time}}</span>
+                    </div>
+                    <div class="content">{{item.content}}</div>
+                  </div>
+                </div>
+                <div class="loadmore" @click="loadmore" v-if="commentsflag">加载更多</div>
+              </div>
             </div>
-            
           </div>
-          </div>
-           
         </div>
       </div>
     </template>
@@ -131,14 +129,16 @@ export default {
       var that = this;
       that.articalId = key;
       console.log(key);
-      that.axios.post("/api/v1/user/article/visit?id=" + key).then(function(res) {
-        var data = res["data"]["data"];
-        that.theme = data["theme"];
-        that.content = data["content"];
-        that.name = data["name"];
-        that.time = data["create_time"];
-        that.visit = data["visit_count"];
-      });
+      that.axios
+        .post("/api/v1/user/article/visit?id=" + key)
+        .then(function(res) {
+          var data = res["data"]["data"];
+          that.theme = data["theme"];
+          that.content = data["content"];
+          that.name = data["name"];
+          that.time = data["create_time"];
+          that.visit = data["visit_count"];
+        });
       that.getcomment = [];
       that.getcomments(that.articalId, that.offset);
     },
@@ -159,15 +159,17 @@ export default {
         }
       });
       console.log(that.name);
-      that.axios.post("/api/v1/user/article/visit?id=" + id).then(function(res) {
-        var data = res["data"]["data"];
-        that.theme = data["theme"];
+      that.axios
+        .post("/api/v1/user/article/visit?id=" + id)
+        .then(function(res) {
+          var data = res["data"]["data"];
+          that.theme = data["theme"];
 
-        that.content = data["content"];
-        that.name = data["name"];
-        that.time = data["create_time"];
-        that.visit = data["visit_count"];
-      });
+          that.content = data["content"];
+          that.name = data["name"];
+          that.time = data["create_time"];
+          that.visit = data["visit_count"];
+        });
       that.offset = 0;
       var click = false;
       that.getcomments(that.articalId, that.offset, click);
@@ -243,7 +245,7 @@ export default {
 
 <style lang="scss" scoped>
 .mains {
-  // background:url('../../assets/images/artical.png') no-repeat;
+  background: url("../../assets/images/artical.png") no-repeat;
   background-size: contain;
   background-color: #d5d7d8;
 }
@@ -272,8 +274,7 @@ tbody {
   .head {
     width: 100%;
     height: 150px;
-    position: fixed;
-    top:0;
+    position: absolute;
     z-index: 4;
     > .top1 {
       position: relative;
@@ -326,9 +327,9 @@ tbody {
   /* 由两个子元素撑开 */
   display: flex;
   min-height: 1260px;
-  // width: 1000px;
+  width: 1000px;
   margin: 0 auto;
-  // padding: 100px;
+  padding: 100px;
   .el-table,
   .el-table__body-wrapper,
   .el-table__footer-wrapper,
@@ -353,12 +354,12 @@ h5 {
   height: 100px;
   text-align: center;
   line-height: 100px;
-  font-size: 25px;
+  font-size: 22px;
   border-bottom: 1px solid #727272;
   color: white;
-  background-color: rgb(174, 174, 174);
+  background-color: rgb(140, 238, 101);
   i {
-    font-size: 40px;
+    font-size: 22px;
   }
 }
 
@@ -433,14 +434,14 @@ h5 {
   /* 由两个子元素撑开 */
   display: flex;
   min-height: 1260px;
-  // width: 1000px;
+  width: 1000px;
   margin: 0 auto;
   padding: 10px;
 
-  // .left {
-  //   width: 210px;
-  //   overflow: hidden;
-  // }
+  .left {
+    width: 210px;
+    overflow: hidden;
+  }
   .right {
     flex: 1;
     /* 右边部分不影响其他盒子也不被别人影响· */
@@ -452,13 +453,11 @@ h5 {
         text-align: center !important;
         line-height: 1.15;
         font-weight: 400;
-        font-size: 20px;
       }
       p {
         text-align: center;
         margin-top: 20px;
         color: #999;
-        font-size: 14px;
       }
     }
     .pcon {
@@ -466,20 +465,12 @@ h5 {
       min-height: 600px;
       max-height: 1000px;
       overflow: auto;
-
     }
     .pinglun {
-      //  position: fixed;
-       bottom: 0;
-       width: 90%;
-       margin:0 auto;
-       padding-left: 10px;
       // width: 1000px;
       // margin: 0 auto;
+      padding-left: 40px;
       .logins {
-        background-color: #09c;
-        font-size: 12px;
-        color: #fff;
         height: 50px;
         width: 50px;
         border-radius: 50px;
@@ -492,8 +483,8 @@ h5 {
         top: 10px;
       }
       textarea {
-        min-width: 80%;
-        min-height: 20px;
+        min-width: 700px;
+        min-height: 80px;
         margin-bottom: 20px;
         border-radius: 20px;
         border: 1px solid #4398ed;
@@ -506,7 +497,6 @@ h5 {
         input {
           position: relative;
           top: -23px;
-          right: 30px;
           // right: 25px;
           border-radius: 10px;
           background-color: #4398ed;
@@ -521,7 +511,7 @@ h5 {
     .liuyans {
       width: 100%;
       .tab {
-        // min-width: 700px;
+        min-width: 700px;
         min-height: 50px;
         margin-bottom: 20px;
         border-radius: 20px;
@@ -531,10 +521,6 @@ h5 {
         justify-content: flex-start;
         .lef {
           width: 50px;
-          font-size: 25px;
-          .iconfont{
-            font-size: 25px;
-          }
         }
         .rig {
           .titl {
@@ -559,13 +545,13 @@ h5 {
   }
 }
 h5 {
-  height: 80px;
+  height: 60px;
   text-align: center;
-  line-height: 100px;
-  font-size: 25px;
+  line-height: 60px;
+  font-size: 22px;
   border-bottom: 1px solid #727272;
   color: white;
-  background-color: rgb(174, 174, 174);
+  background-color: #00cba3;
   i {
     font-size: 40px;
   }
@@ -582,6 +568,7 @@ h5 {
 }
 .el-menu-item {
   height: 50px;
+ 
 }
 .el-menu-item-group__title {
   padding: 0;

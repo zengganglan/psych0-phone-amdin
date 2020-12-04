@@ -317,7 +317,7 @@ export default {
         return;
       }
       that.axios
-        .post("api/v1/admin/user/editUser?id=" + that.id, that.values)
+        .post("/api/v1/admin/user/editUser?id=" + that.id, that.values)
         .then(function(res) {
           console.log(res);
         });

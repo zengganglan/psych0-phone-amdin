@@ -27,18 +27,17 @@ import "./assets/css/iconfont.css"
 Vue.prototype.axios = Axios;
 import { routerMatch, asyrouter } from './router/index'
 
-var permission = [{ path: "/data/game/gameCenter", permission: [1, 2, 3] }, { path: "/data/game/gamedetail", permission: [1, 2, 3] }]
-
-if (store.state.list.length === 0) {
-  // 如果没有权限列表就重新请求拿到权限开始匹配动态生成路由
-  routerMatch(permission, asyrouter).then(res => {
-    console.log(res[0])
-    router.addRoutes(res[0])
-    // 看不到但是已经存在具有权限的路由  
-  }).catch(() => {
-    router.replace('/')
-  })
-}
+// var permission = [{ path: "/data/game/gameCenter", permission: [1, 2, 3] }, { path: "/data/game/gamedetail", permission: [1, 2, 3] }]
+// if (store.state.list.length === 0) {
+//   // 如果没有权限列表就重新请求拿到权限开始匹配动态生成路由
+//   routerMatch(permission, asyrouter).then(res => {
+//     console.log(res[0])
+//     router.addRoutes(res[0])
+//     // 看不到但是已经存在具有权限的路由  
+//   }).catch(() => {
+//     router.replace('/')
+//   })
+// }
 
 //路由
 Vue.config.productionTip = false

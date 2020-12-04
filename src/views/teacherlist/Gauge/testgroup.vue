@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+    <!-- <headson :headson="headson"></headson> -->
 
     <!-- <div class="tab">
       <ul>
@@ -10,16 +11,16 @@
           @click="tab(index)"
         >{{item}}</li>
       </ul>
-    </div> -->
+    </div>-->
     <ul>
       <li class="data1" v-if="tabindex==1">
         <div class="body">
-          <!-- <div class="work">
+          <div class="work">
             <span class="del" @click="del()" :class="{ btnactive: isbtnActive }">
               删除
               <i class="iconfont icon-trash"></i>
             </span>
-          </div> -->
+          </div>
           <div class="datas">
             <table class="tb_list" ref="tables">
               <thead>
@@ -32,13 +33,13 @@
                       ref="allcheck"
                       @click="allcheck()"
                       class="icheck"
-                    >
+                    />
                   </th>
                   <!-- 也可以循环遍历 -->
                   <th v-for="(item,index) in thead" :key="index">{{item}}</th>
                 </tr>
               </thead>
-             <tbody>
+              <tbody>
                 <tr
                   v-for="(item,index) in tableData3"
                   :key="index"
@@ -62,89 +63,21 @@
                     <span>{{item.groupname}}</span>
                     <!-- <router-link :to="'/admin/settingStudent?id=' + item.id" tag="a"></router-link> -->
                   </td>
-                  
                   <td>
                     <span>{{item.person}}</span>
                   </td>
-                
+                  <td>
+                    <span>{{item.start_time}}</span>
+                  </td>
+
                   <td>
                     <span>{{item.expire_time}}</span>
                   </td>
-                 
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="pages">
-            <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="page.currentPage"
-              :page-sizes="[10, 20, 30, 40,50,60]"
-              :page-size="page.size"
-              layout="total, sizes, jumper"
-              :total="page.total"
-            ></el-pagination>
-          </div>
-                  <div class="add" @click="addnumber">新增</div>
-
-        </div>
-      </li>
-      <li class="data3" v-else>
-        <div class="body">
-          <div class="work">
-            <span class="reset" @click="reset">删除</span>
-          </div>
-          <div class="datas">
-            <table class="tb_list" ref="tables">
-              <thead>
-                <tr>
-                  <th>
-                    <input
-                      type="checkbox"
-                      name="available"
-                      value="0"
-                      ref="allcheck"
-                      @click="allcheck()"
-                      class="icheck"
-                    >
-                  </th>
-                  <!-- 也可以循环遍历 -->
-                  <th v-for="(item,index) in thead1" :key="index">{{item}}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="(item,index) in tableData3"
-                  :key="index"
-                  @mouseover="changecolor(index)"
-                  @click="setting(item.sort)"
-                  v-bind:class="{heightcolor:isactive==item.sort}"
-                  @mouseout="colorcancel()"
-                >
-                  <td align="center">
-                    <input
-                      type="checkbox"
-                      name="available"
-                      :value="item.sort"
-                      ref="icheck"
-                      @click.stop="icheck()"
-                      class="icheck"
-                    >
-                  </td>
-                  <td class="sort">{{item.job_num}}</td>
-                  <td class="class">
-                    <!-- 点击跳转相关年纪的班级 -->
-                    <router-link :to="'/admin/settingStudent?' + item.sort" tag="a">{{item.name}}</router-link>
-                  </td>
-                  <td>
-                    <span>{{item.sex}}</span>
-                  </td>
-               
- 
                   <td>
                     <template>
-                      <el-button size="mini" @click="setting(item.sort)"><span class="iconfont icon-qrcode"></span></el-button>
+                      <!-- <el-button size="mini" @click="setting(item.sort)">编辑</el-button> -->
+
+                      <el-button size="mini" type="danger" @click="del(item.id)">删除</el-button>
                     </template>
                   </td>
                 </tr>
@@ -158,14 +91,90 @@
               :current-page="page.currentPage"
               :page-sizes="[10, 20, 30, 40,50,60]"
               :page-size="page.size"
-              layout="total, sizes, jumper"
+              layout="total, sizes, prev, pager, next, jumper"
               :total="page.total"
             ></el-pagination>
           </div>
-                  <div class="add" @click="addnumber">新增</div>
+          <div class="add" @click="addnumber">新增</div>
+          <el-dialog title="分发量表" :visible.sync="dialogFormVisible1" width='100%'>
+            <el-form :model="form1">
+              <el-form-item label="发送日期" :label-width="formLabelWidth">
+                <el-date-picker
+                  v-model="form1.start_time"
+                  type="date"
+                  placeholder="选择日期"
+                  value-format="yyyy-MM-dd"
+                  style="width: 210px;"
+                  :picker-options="pickerOptions1"
+                ></el-date-picker>
+              </el-form-item>
+              <el-form-item label="截止日期" :label-width="formLabelWidth">
+                <el-date-picker
+                  v-model="form1.expire_time"
+                  type="date"
+                  placeholder="选择日期"
+                  value-format="yyyy-MM-dd"
+                  style="width: 210px;"
+                    :picker-options="pickerOptions2"
 
+                ></el-date-picker>
+              </el-form-item>
+              <!-- 可以多选 -->
+              <el-form-item label="选择对象" :label-width="formLabelWidth">
+                <el-select v-model="selectid" placeholder="请选择" style="width: 210px;">
+                  <el-option
+                    v-for="item in selsets"
+                    :key="item.value"
+                    :label="item.name"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="选择组别" :label-width="formLabelWidth" v-if="selectid==1">
+                <div class="schoolcheck">
+                  <schoolcheck ref="schoolcheck"></schoolcheck>
+                </div>
+                
+              </el-form-item>
+              <el-form-item label="选择个人" :label-width="formLabelWidth" v-if="selectid==2">
+                <el-input
+                  v-model="target"
+                  autocomplete="off"
+                  style="width: 210px;"
+                  placeholder="请输入学号,多人请用“,”隔开"
+                  onkeyup="this.value=this.value.replace(/[^\d\,]/g,'')"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="选择量表" :label-width="formLabelWidth">
+              
+                <el-select
+                      filterable
+                      remote
+                       multiple
+                      reserve-keyword
+                      placeholder="请输入关键词搜索"
+                      :remote-method="remoteMethod"
+                      :loading="loading"
+                      v-model="form1.scale_id"
+                      value-key
+                    >
+                      <el-option
+                        v-for="(item, index) in roles"
+                        :key="index"
+                        :label="item.name"
+                        :value="item.id"
+                      ></el-option>
+                    </el-select>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogFormVisible1 = false">取 消</el-button>
+              <el-button type="primary" @click="editsure">确 定</el-button>
+            </div>
+          </el-dialog>
         </div>
       </li>
+   
     </ul>
   </div>
 </template>
@@ -181,12 +190,32 @@ import { global } from "../../../global/global";
 export default {
   data() {
     return {
+      formLabelWidth: "70px",
       isbtnActive: false,
+      dialogFormVisible1: false,
+      selectid: "",
+       pickerOptions1: {
+          disabledDate(time) {
+            return time.getTime() < Date.now()-24*60*60*1000 ;
+          },
+       },
+             pickerOptions2: this.beginDate(),
 
+      selsets: [{ value: 1, name: "团体" }, { value: 2, name: "个人" }],
+      target:"",
+      form1: {
+        scale_id: "",
+        type: "",
+        target: '',
+        start_time: "",
+        expire_time: ""
+      },
       // 高亮显示
       isactive: "",
       // 头部组件信息
       headson: ["测试组合及分发", "系统量表管理，操作"],
+      roles:'',
+            loading: false,
 
       // 切导航行栏
       tabls: ["组合分发", "组合设置"],
@@ -207,16 +236,19 @@ export default {
         value2: "",
         value3: ""
       },
- thead: [
-        "量表",
-        "班级",
-        "学生",
+      thead: [
+        "所选量表",
+        "所选班级",
+        "学生学号",
+        "添加时间",
         "截止时间",
-      ],      thead1: ["序号", "名称", "量表组合", "测评二维码"],
+        "操作"
+      ],
+      thead1: ["序号", "名称", "量表组合", "测评二维码"],
       //请求数据赋值
       tableData3: [],
       // 提交资料
-      submitflag: true
+      submitflag: true,
     };
   },
   watch: {},
@@ -225,6 +257,7 @@ export default {
     this.getList(this.page.currentPage, this.page.size);
   },
   methods: {
+
     // getList获取列表数据给tableData3赋值
     getList(currentPage, pagesize) {
       //传递查询条件请求数据返回相应页码的数据条数 查询条件当前页码，和每页显示条数
@@ -236,7 +269,8 @@ export default {
         })
         .then(function(res) {
           var data = res["data"]["data"]['list'];
-           that.page.total = res["data"]["data"]["total"];
+                     that.page.total = res["data"]["data"]["total"];
+
           data.map(function(item, index) {
             if (item['scale'].length>0) {
               var st=''
@@ -283,7 +317,10 @@ export default {
     // 增加数据
     addnumber() {
       this.addflag = true;
+      this.dialogFormVisible1 = true;
+      this.remoteMethod("")
       console.log(this.addflag);
+
       // 把值取到放到最后一个数据，在这之前把数据切换放到最后一页才合乎情理
     },
     //编辑后确定
@@ -335,7 +372,7 @@ export default {
         .then(() => {
           //  点击确定开始删除
           this.axios
-            .post("/api/v1/admin/user/delRole", { id: ids })
+            .post("/api/v1/admin/scale/delScaleComb", { id: ids })
             .then(function(res) {
               console.log(res);
               if (res["data"]["code"] == 0) {
@@ -448,12 +485,53 @@ export default {
       console.log(this.$refs.schoolcheck1.newvalue);
       // this.tableflag = true;
     },
-    reset() {
-      // 重置密码 选中的
+  
+      remoteMethod(query) {
+      console.log(query);
+      var that = this;
+      this.axios
+        .get("/api/v1/system/scale/getSelectScaleList?key=" + query)
+        .then(function(res) {
+          console.log(res);
+          if (res["data"]["code"] == 0) {
+            that.roles = res["data"]["data"];
+          }
+        });
     },
-    handleEdit(){
+    editsure() {
+      var that =this
+         var type=[]
+      if (this.selectid==1) {
+        type.push(this.$refs.schoolcheck.item["id"])
+        this.form1.target=type
+       }else{
+         this.form1['target']=this.target.split(',')
+       }
+       this.form1.type=this.selectid
+       this.axios.post('/api/v1/admin/scale/saveScaleComb',this.form1).then((res)=>{
+         if (res['data']['code']==0) {
+            that.$message('增加成功')
+            that.dialogFormVisible1=false
+                this.getList(this.page.currentPage, this.page.size);
 
-    }
+         }else{
+            that.$message(res['data']['msg'])
+         }
+       })
+    },
+     beginDate(){
+      let that = this
+      return {
+         disabledDate(time) {
+              if(that.form1.start_time){
+              return new Date(that.form1.start_time).getTime() >= time.getTime() 
+            } else {
+              return time.getTime() <= Date.now()-24*60*60*1000//开始时间不选时，结束时间最大值小于等于当天
+            }
+          },
+      }
+
+    },
   },
   components: {
     schoolcheck: schoolcheck,
@@ -464,6 +542,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.schoolcheck {
+  position: absolute;
+  width: 210px;
+  top: -10px;
+  // left: 88px;
+  height: 100%;
+  z-index: 3;
+}
 a {
   color: #169bd5;
 }
@@ -485,12 +571,11 @@ a {
   height: 100px;
 }
 .main {
- .tab {
+  .tab {
     width: 100%;
-    height: 60px;
+    height: 100px;
     color: #bfbfc0;
     font-size: 12px;
-
     background-color: #fbfbfb;
     border: 1px solid #eff2f9;
     box-shadow: #eff2f9 1px 1px 20px;
@@ -503,9 +588,11 @@ a {
       li {
         float: left;
         text-align: center;
-        width: 2rem;
-        line-height: 60px;
-        // margin: 0 70px;
+        width: 200px;
+        line-height: 100px;
+        width: 174px;
+        margin: 0 70px;
+        font-size: 20px;
       }
     }
   }
@@ -596,11 +683,12 @@ a {
       }
     }
     .datas {
-      height: 640px;
+      min-height: 200px;
       border: 1px solid #e6e6e8;
-      margin : 0 10px;
+      margin: 0 5px;
       margin-top: 30px;
       background-color: #ffffff;
+      font-size: 14px;
 
       .tb_list {
         margin: 0 auto;
@@ -625,18 +713,18 @@ a {
     }
   }
   .add {
-   width: 310px;
-  height: 25px;
-  margin: 0 auto;
-  text-align: center;
-  line-height: 25px;
-  position: relative;
-  top: -20px;
-  color: gray;
-  border: 1px solid #dfd7d7;
-  border-radius: 10px;
-  font-size: 18px;
-  cursor: pointer;
+    width: 310px;
+    height: 25px;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 25px;
+    position: relative;
+    top: -20px;
+    color: gray;
+    border: 1px solid #dfd7d7;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
   }
   .data2 {
     width: 90%;

@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class="add" @click="addnumber">新增</div>
-    <el-dialog title="功能室添加" :visible.sync="dialogFormVisible">
+    <el-dialog title="功能室添加" :visible.sync="dialogFormVisible" width='100%'>
       <el-form :model="form">
         <el-form-item label="功能室名称" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off" style="width: 210px;"></el-input>
@@ -127,7 +127,7 @@ export default {
         unit_name: "",
         college_id: ""
       },
-      formLabelWidth: "100px",
+      formLabelWidth: "70px",
       // 头部组件信息
       headson: ["功能室设置", ""],
       tableData: [],
@@ -426,7 +426,6 @@ export default {
   }
 }
 .data {
-  min-height: 640px;
   border: 1px solid #e6e6e8;
   margin: 0 10px;
   margin-top: 30px;
