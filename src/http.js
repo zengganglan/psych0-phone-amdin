@@ -1,4 +1,4 @@
-//配置http拦截
+//配置http拦截.eg https://www.jianshu.com/p/0229211ea679
 import axios from 'axios'
 import router from './router/index'
 import store from './store/index'
